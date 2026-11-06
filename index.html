@@ -56,10 +56,34 @@
         <span class="tool__lock"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M7 11V7a5 5 0 0 1 10 0v4M5 11h14v10H5z"/></svg> Procesado 100% en tu navegador</span>
       </div>
       <div class="inapp" id="inapp" hidden>
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-        <div>
-          <strong>Estás en <span id="inappName">la app</span>:</strong> aquí la descarga puede fallar. Toca <b>···</b> y elige <b>Abrir en el navegador</b>.
-          <div class="inapp__btns"><a class="btn btn--dark btn--sm" id="inappOpen" href="#" hidden data-track="abrir-navegador">Abrir en Chrome</a><button type="button" class="btn btn--ghost btn--sm" id="inappCopy" data-track="copiar-link">Copiar link</button></div>
+        <div class="inapp__head">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <p><strong>Estás dentro de <span id="inappName">la app</span>.</strong> Aquí la descarga del Excel puede fallar. Ábrela en tu navegador o envíate el link para usarla cuando tengas tu extracto a mano.</p>
+        </div>
+        <div class="inapp__btns">
+          <a class="btn btn--dark btn--sm" id="inappOpen" href="#" hidden>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>
+            <span id="inappOpenTxt">Abrir en el navegador</span>
+          </a>
+          <button type="button" class="btn btn--primary btn--sm" id="inappSend">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+            Envíame el link
+          </button>
+        </div>
+        <div class="inapp__send" id="inappSendBox" hidden>
+          <a class="btn btn--ghost btn--sm" id="sendWa" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>
+            WhatsApp
+          </a>
+          <a class="btn btn--ghost btn--sm" id="sendMail" href="#">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM4 6l8 7 8-7"/></svg>
+            Correo
+          </a>
+          <button type="button" class="btn btn--ghost btn--sm" id="inappCopy">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 9h11v11H9zM5 15H4V4h11v1"/></svg>
+            <span>Copiar link</span>
+          </button>
+          <p class="inapp__tip">En WhatsApp puedes enviártelo a ti mismo: busca tu propio número en la lista de chats.</p>
         </div>
       </div>
       <div id="dropzone" class="drop" tabindex="0" role="button" aria-describedby="dropHint">
