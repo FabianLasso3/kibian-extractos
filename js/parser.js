@@ -81,6 +81,83 @@
     }
   });
 
+  // DaviPlata (Banco Davivienda): fecha "dd / mm", valor con signo al final, sin saldo por fila
+  var MONTHS = { enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8, septiembre: 9, setiembre: 9, octubre: 10, noviembre: 11, diciembre: 12 };
+  var DP_DATE = /^(\d{1,2})\s*\/\s*(\d{1,2})$/;
+  var DP_VALUE = /^\$\s?[\d,]+\.\d{2}\s?[+-]$/;
+  function dpMoney(str) {
+    var t = String(str).replace(/\s/g, '');
+    var sign = t.slice(-1) === '-' ? -1 : 1;
+    var n = parseMoney(t.slice(0, -1));
+    return n == null ? null : (n === 0 ? 0 : sign * n);
+  }
+  BANKS.push({
+    id: 'daviplata',
+    name: 'DaviPlata',
+    country: 'CO',
+    detect: function (fullText) {
+      return /DAVIPLATA/i.test(fullText) && /Clase de movimiento/i.test(fullText) && /Informe del mes/i.test(fullText);
+    },
+    parse: function (pages, fullText) {
+      var out = { movements: [], summary: {}, period: null, warnings: [], balanceComputed: true };
+      var inf = /Informe del mes:\s*([A-Za-zÁÉÍÓÚáéíóú]+)\s*\/\s*(\d{4})/i.exec(fullText);
+      var year = inf ? +inf[2] : new Date().getFullYear();
+      var month = inf ? MONTHS[inf[1].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')] : null;
+      if (month) {
+        var last = new Date(Date.UTC(year, month, 0)).getUTCDate();
+        var mm = String(month).padStart(2, '0');
+        out.period = { from: year + '-' + mm + '-01', to: year + '-' + mm + '-' + String(last).padStart(2, '0') };
+      }
+      var labels = { 'Saldo anterior': 'opening', 'Nuevo saldo': 'closing', 'Más créditos': 'credits', 'Menos débitos': 'debits' };
+      var rows = [];
+      pages.forEach(function (prows) {
+        prows.forEach(function (r) {
+          var c = r.cells;
+          // Resumen: "Saldo anterior ... $0.14"
+          for (var i = 0; i < c.length - 1; i++) {
+            var key = labels[c[i].str.trim()];
+            if (key && out.summary[key] == null && MONEY_RE.test(c[i + 1].str.replace(/\s/g, ''))) out.summary[key] = parseMoney(c[i + 1].str);
+          }
+          // Movimiento: fecha | valor | autorizacion | destino | clase de movimiento
+          var dateCell = c.find(function (x) { return DP_DATE.test(x.str.trim()); });
+          var valCell = c.find(function (x) { return DP_VALUE.test(x.str.replace(/\s/g, '')); });
+          if (!dateCell || !valCell || valCell.x < dateCell.x) return;
+          var dm = DP_DATE.exec(dateCell.str.trim());
+          var day = +dm[1], mon = +dm[2];
+          var y = (month && mon > month) ? year - 1 : year; // extractos que cruzan de diciembre a enero
+          var after = c.filter(function (x) { return x.x > valCell.x + 1 && x !== valCell; });
+          var auth = '', dest = [], desc = [];
+          after.forEach(function (x) {
+            if (!auth && /^\d{3,}$/.test(x.str.trim()) && x.x < valCell.x + 140) { auth = x.str.trim(); return; }
+            if (x.x < 360) dest.push(x.str.trim()); else desc.push(x.str.trim());
+          });
+          var d = desc.join(' ').replace(/\s+/g, ' ').trim();
+          var de = dest.join(' ').replace(/\s+/g, ' ').trim();
+          rows.push({
+            date: y + '-' + String(mon).padStart(2, '0') + '-' + String(day).padStart(2, '0'),
+            description: (d || 'Movimiento') + (de ? ' · ' + de : ''),
+            amount: dpMoney(valCell.str),
+            reference: auth
+          });
+        });
+      });
+      // Orden cronologico estable. DaviPlata no trae saldo por fila: lo calculamos.
+      rows = rows.map(function (r, i) { r._i = i; return r; }).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : a._i - b._i; });
+      // Si dentro de un mismo dia el orden del banco deja el saldo en negativo, ponemos primero las entradas
+      var opening = out.summary.opening != null ? out.summary.opening : 0;
+      var byDay = [], cur = null;
+      rows.forEach(function (r) { if (!cur || cur.date !== r.date) { cur = { date: r.date, list: [] }; byDay.push(cur); } cur.list.push(r); });
+      var bal = opening;
+      byDay.forEach(function (g) {
+        var b = bal, neg = false;
+        g.list.forEach(function (r) { b = Math.round((b + r.amount) * 100) / 100; if (b < -0.001) neg = true; });
+        if (neg) g.list.sort(function (a, b2) { return (b2.amount >= 0) - (a.amount >= 0) || a._i - b2._i; });
+        g.list.forEach(function (r) { bal = Math.round((bal + r.amount) * 100) / 100; r.balance = bal; delete r._i; out.movements.push(r); });
+      });
+      return out;
+    }
+  });
+
   // ---------- verificacion de saldos ----------
   function verify(result) {
     var mv = result.movements, s = result.summary, issues = [];
@@ -104,6 +181,7 @@
 
   // ---------- categorizacion (Pro) ----------
   var CATEGORY_RULES = [
+    [/\bGMF\b|4x1000|4 x 1000|comisi|cuota de manejo|\bIVA\b|cobro total|cobro o devoluci/i, 'Comisiones e impuestos'],
     [/intereses/i, 'Intereses'],
     [/pago credito|cuota|prestamo|préstamo/i, 'Pago de créditos'],
     [/retiro/i, 'Retiros en efectivo'],
@@ -111,8 +189,8 @@
     [/compra pse|pse/i, 'Pagos PSE'],
     [/compra/i, 'Compras'],
     [/claro|movistar|tigo|wom|etb|epm|enel|vanti|gas|agua|energ|internet|netflix|spotify/i, 'Servicios y suscripciones'],
-    [/recibi|recibí|pago recibido|^de /i, 'Transferencias recibidas'],
-    [/envio|envío|^para |transferencia/i, 'Transferencias enviadas'],
+    [/recibi|recibí|pago recibido|^de |recibio plata|recibió plata/i, 'Transferencias recibidas'],
+    [/envio|envío|^para |transferencia|pasaste plata|enviaste/i, 'Transferencias enviadas'],
     [/comision|comisión|cuota de manejo|gmf|4x1000|4 x 1000/i, 'Comisiones e impuestos']
   ];
   function categorize(desc, amount) {

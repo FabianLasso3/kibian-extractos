@@ -182,7 +182,7 @@
   function errorText(code) {
     return {
       SCANNED: 'Este PDF parece ser una imagen escaneada. Por ahora solo leemos extractos descargados directamente del banco.',
-      UNSUPPORTED: 'Todavía no reconocemos este formato. Hoy soportamos extractos de Nequi y estamos sumando más bancos.',
+      UNSUPPORTED: 'Todavía no reconocemos este formato. Hoy soportamos extractos de Nequi y DaviPlata, y estamos sumando más bancos.',
       CANCELLED: 'Cancelaste la apertura del archivo.',
       NOTPDF: 'El archivo no es un PDF.'
     }[code] || 'No pudimos leer este archivo. Verifica que sea el PDF original descargado del banco.';
@@ -272,8 +272,9 @@
       '<h3>' + mv.length + ' movimientos encontrados</h3><p class="muted">' + esc(periods.join(' · ')) + '</p></div>' +
       '<div class="res-actions"><button class="btn btn--primary" id="dlXlsx">' + dlIcon() + ' Descargar Excel</button><button class="btn btn--ghost" id="dlCsv">CSV</button></div></div>';
 
+    var computed = results.some(function (r) { return r.balanceComputed; });
     var check = allOk
-      ? '<div class="check check--ok">' + icons.ok + '<div><strong>Saldos verificados.</strong> Cada movimiento cuadra con el saldo del banco y los totales coinciden con el resumen del extracto.</div></div>'
+      ? '<div class="check check--ok">' + icons.ok + '<div><strong>' + (computed ? 'Totales verificados.' : 'Saldos verificados.') + '</strong> ' + (computed ? 'Las entradas, las salidas y el saldo final coinciden con el resumen del extracto. El saldo de cada fila lo calculamos a partir del saldo anterior.' : 'Cada movimiento cuadra con el saldo del banco y los totales coinciden con el resumen del extracto.') + '</div></div>'
       : '<div class="check check--warn">' + icons.warn + '<div><strong>Revisa antes de usar.</strong> ' + esc(results.map(function (r) { return r.check.issues.join(' '); }).join(' ')) + '</div></div>';
 
     var stats = '<div class="stats">' +
@@ -347,9 +348,11 @@
       { header: 'Débito', key: 'deb', width: 15, style: { numFmt: '#,##0.00' } },
       { header: 'Crédito', key: 'cred', width: 15, style: { numFmt: '#,##0.00' } },
       { header: 'Valor', key: 'val', width: 15, style: { numFmt: MONEY } },
-      { header: 'Saldo', key: 'bal', width: 16, style: { numFmt: '#,##0.00' } }
+      { header: results.some(function (r) { return r.balanceComputed; }) ? 'Saldo (calculado)' : 'Saldo', key: 'bal', width: 18, style: { numFmt: '#,##0.00' } }
     ];
+    var hasRef = mv.some(function (m) { return m.reference; });
     if (pro) cols.push({ header: 'Categoría', key: 'cat', width: 26 });
+    if (hasRef) cols.push({ header: 'Referencia', key: 'ref', width: 14 });
     cols.push({ header: 'Banco', key: 'bank', width: 12 });
     if (multi) cols.push({ header: 'Archivo', key: 'file', width: 30 });
 
@@ -368,6 +371,7 @@
     mv.forEach(function (m) {
       var row = { date: jsDate(m.date), desc: m.description, deb: m.amount < 0 ? -m.amount : null, cred: m.amount >= 0 ? m.amount : null, val: m.amount, bal: m.balance, bank: m.bank };
       if (pro) row.cat = m.category;
+      if (hasRef) row.ref = m.reference || '';
       if (multi) row.file = m.file;
       ws.addRow(row);
     });

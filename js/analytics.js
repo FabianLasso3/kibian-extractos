@@ -52,6 +52,7 @@
     var d = e.target;
     if (!d || d.tagName !== 'DETAILS' || !d.open) return;
     if (d.id === 'helpNequi') return track('ayuda-nequi');
+    if (d.id === 'helpDavi') return track('ayuda-daviplata');
     if (d.closest('.faq')) {
       var list = Array.prototype.slice.call(document.querySelectorAll('.faq details'));
       track('faq-' + (list.indexOf(d) + 1), (d.querySelector('summary') || {}).textContent);
