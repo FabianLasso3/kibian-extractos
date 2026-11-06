@@ -426,3 +426,16 @@ tr.ghost:last-child td { opacity: .5; }
   .inapp__btns { margin-top: 8px; }
   .hero h1 { font-size: clamp(1.65rem, 7vw, 2.2rem); }
 }
+
+/* v0.7.0: aviso del navegador interno */
+.inapp { display: block; }
+.inapp__head { display: flex; gap: 10px; align-items: flex-start; }
+.inapp__head p { margin: 0; }
+.inapp__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.inapp__btns .btn, .inapp__send .btn { gap: 8px; }
+.inapp__send { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #F4D98B; }
+.inapp__send .btn--ghost { background: #fff; }
+.inapp__tip { margin: 8px 0 0; font-size: .8rem; color: #8A6A1F; flex-basis: 100%; }
+.inapp .btn svg { color: inherit; flex: none; }
+.inapp__btns .btn { flex: 1 1 150px; }
+.inapp__send .btn { flex: 1 1 130px; }
