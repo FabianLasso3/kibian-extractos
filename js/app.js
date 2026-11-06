@@ -191,7 +191,7 @@
   async function handleFiles(fileList) {
     var files = Array.prototype.slice.call(fileList || []);
     if (!files.length) return;
-    track('archivo-elegido' + (files.length > 1 ? '-varios' : ''));
+    track('subio-extracto' + (files.length > 1 ? '-varios' : ''));
     var pro = isPro();
     var note = '';
     if (!pro && files.length > 1) {
@@ -334,7 +334,7 @@
   var MONEY = '#,##0.00;[Red]-#,##0.00';
 
   async function exportXlsx() {
-    track('descarga-excel-' + (isPro() ? 'pago' : 'gratis') + (results[0] && results[0].bank.id === 'ejemplo' ? '-ejemplo' : ''));
+    track('descargo-excel-' + (isPro() ? 'pago' : 'gratis') + (results[0] && results[0].bank.id === 'ejemplo' ? '-ejemplo' : ''));
     var pro = isPro(), mv = exportMovements(), multi = results.length > 1;
     var wb = new window.ExcelJS.Workbook();
     wb.creator = 'Kibian Extractos';
@@ -454,7 +454,7 @@
   }
 
   function exportCsv() {
-    track('descarga-csv-' + (isPro() ? 'pago' : 'gratis'));
+    track('descargo-csv-' + (isPro() ? 'pago' : 'gratis'));
     var pro = isPro(), mv = exportMovements();
     var head = ['Fecha', 'Descripcion', 'Debito', 'Credito', 'Valor', 'Saldo'];
     if (pro) head.push('Categoria');

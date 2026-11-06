@@ -36,7 +36,7 @@
     if (!el) return;
     var t = el.getAttribute('data-track');
     if (t) return track(t);
-    if (el.hasAttribute('data-checkout')) return track(el.getAttribute('data-checkout') === 'checkoutPass' ? 'checkout-pase' : 'checkout-anual');
+    if (el.hasAttribute('data-checkout')) return track(el.getAttribute('data-checkout') === 'checkoutPass' ? 'clic-comprar-pase' : 'clic-comprar-anual');
     var href = el.getAttribute('href') || '';
     if (href === '#convertir') {
       var where = el.closest('.nav') ? 'nav' : el.closest('.mbar') ? 'barra-movil' : el.closest('.final') ? 'final' : 'seccion';
