@@ -5,9 +5,9 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://kibianextractos.goatcounter.com; font-src 'self'; worker-src 'self' blob:; connect-src 'self' https://api.lemonsqueezy.com https://kibianextractos.goatcounter.com https://*.workers.dev; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kibian Extractos | Convierte tu extracto de Nequi a Excel en segundos</title>
-<meta name="description" content="Convierte extractos bancarios en PDF de Nequi a Excel o CSV en segundos. Saldos verificados y 100% privado: tu archivo nunca sale de tu computador. Gratis, sin registro.">
-<meta property="og:title" content="Tu extracto de Nequi en Excel, en segundos">
+<title>Kibian Extractos | Convierte tu extracto de Nequi o DaviPlata a Excel en segundos</title>
+<meta name="description" content="Convierte extractos en PDF de Nequi y DaviPlata a Excel o CSV en segundos. Saldos verificados y 100% privado: tu archivo nunca sale de tu computador. Gratis, sin registro.">
+<meta property="og:title" content="Tu extracto de Nequi o DaviPlata en Excel, en segundos">
 <meta property="og:description" content="Sin copiar y pegar. Saldos verificados. Tu archivo nunca sale de tu computador.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0E2A22">
@@ -39,7 +39,7 @@
 <section class="hero" id="convertir">
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <p class="pill"><span class="dot dot--live"></span> Disponible para extractos de Nequi</p>
+      <p class="pill"><span class="dot dot--live"></span> Disponible para Nequi y DaviPlata</p>
       <h1>Tu extracto bancario en Excel <span class="mark">en 10 segundos.</span> Sin copiar una sola fila.</h1>
       <p class="lead lead--desk">Arrastra el PDF, revisa la tabla y descárgala lista para trabajar. Cada saldo verificado, y tu archivo <strong>nunca sale de tu computador.</strong></p>
       <p class="lead lead--mob">Elige tu PDF y descarga tu Excel. Gratis, sin registro, y tu archivo <strong>nunca sale de tu celular.</strong></p>
@@ -80,6 +80,14 @@
           <li>Vuelve aquí y elígelo. Si te pide clave, suele ser tu número de documento.</li>
         </ol>
       </details>
+      <details class="help-nequi" id="helpDavi">
+        <summary>¿Cómo descargo mi extracto de DaviPlata?</summary>
+        <ol>
+          <li>Abre la app <b>DaviPlata</b> e ingresa con tu documento y tu clave.</li>
+          <li>En el menú busca la opción de <b>extractos</b>, elige el mes y descárgalo en PDF.</li>
+          <li>Vuelve aquí y elígelo. Si te pide clave, suele ser tu número de documento.</li>
+        </ol>
+      </details>
       <button type="button" class="demo-btn" id="demoBtn">¿No tienes un extracto a mano? <u>Mira cómo queda con un ejemplo</u></button>
       <p class="plan-badge" id="planBadge"></p>
       <p class="status" id="status" hidden role="status" aria-live="polite"></p>
@@ -95,9 +103,9 @@
   <div class="wrap banks__in">
     <p>Hoy leemos extractos de</p>
     <span class="bank bank--on">Nequi</span>
+    <span class="bank bank--on">DaviPlata</span>
     <span class="bank">Bancolombia <em>pronto</em></span>
     <span class="bank">Davivienda <em>pronto</em></span>
-    <span class="bank">DaviPlata <em>pronto</em></span>
     <a class="banks__ask" data-mail="Quiero que agreguen mi banco" href="#">¿Tu banco no está? Pídelo aquí</a>
   </div>
 </section>
@@ -291,7 +299,7 @@
       <article class="card">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12M9 21v-7h6v7"/></svg>
         <h3>Pymes y emprendimientos</h3>
-        <p>Cruza tus ventas por Nequi con tus registros y detecta pagos que no llegaron.</p>
+        <p>Cruza tus ventas por Nequi o DaviPlata con tus registros y detecta pagos que no llegaron.</p>
       </article>
       <article class="card">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v18l-5-3-5 3zM10 8h4M10 12h4"/></svg>
@@ -390,9 +398,9 @@
     </div>
     <div class="road__list">
       <div class="road__item road__item--done"><span>Nequi</span><em>Disponible</em></div>
+      <div class="road__item road__item--done"><span>DaviPlata</span><em>Disponible</em></div>
       <a class="road__item" data-mail="Voto: Bancolombia" href="#"><span>Bancolombia</span><em>Votar</em></a>
       <a class="road__item" data-mail="Voto: Davivienda" href="#"><span>Davivienda</span><em>Votar</em></a>
-      <a class="road__item" data-mail="Voto: DaviPlata" href="#"><span>DaviPlata</span><em>Votar</em></a>
       <a class="road__item" data-mail="Voto: BBVA Colombia" href="#"><span>BBVA</span><em>Votar</em></a>
       <a class="road__item" data-mail="Voto: Banco de Bogotá" href="#"><span>Banco de Bogotá</span><em>Votar</em></a>
       <a class="road__item road__item--other" data-mail="Voto: otro banco (escribe cuál y de qué país)" href="#"><span>Otro banco o país</span><em>Proponer</em></a>
@@ -409,12 +417,12 @@
       <p>De verdad. La herramienta se descarga en tu navegador y lee el PDF ahí mismo. No existe un servidor que reciba archivos. Puedes cargar la página, desconectar el internet y convertir tu extracto para comprobarlo.</p>
     </details>
     <details>
-      <summary>Mi extracto de Nequi tiene clave. ¿Funciona?</summary>
+      <summary>Mi extracto tiene clave. ¿Funciona?</summary>
       <p>Sí. Al soltar el archivo te pedimos la clave, abres el PDF en tu navegador y seguimos. La clave no se guarda ni se envía a ninguna parte.</p>
     </details>
     <details>
       <summary>¿Qué bancos soportan?</summary>
-      <p>Hoy, Nequi. Estamos trabajando en Bancolombia, Davivienda y DaviPlata. Si necesitas otro banco, <a data-mail="Quiero que agreguen mi banco" href="#">escríbenos</a>: los bancos más pedidos son los primeros que agregamos.</p>
+      <p>Hoy, Nequi y DaviPlata. Estamos trabajando en Bancolombia y Davivienda. Si necesitas otro banco, <a data-mail="Quiero que agreguen mi banco" href="#">escríbenos</a>: los bancos más pedidos son los primeros que agregamos.</p>
     </details>
     <details>
       <summary>¿Funciona con extractos escaneados o fotos?</summary>
@@ -466,7 +474,7 @@
   <div class="wrap foot__in">
     <p><b>Kibian Extractos</b> · un producto de Kibian · v<span data-cfg="version"></span></p>
     <p><a href="terminos.html">Términos de uso</a> · <a href="privacidad.html">Política de privacidad</a> · <a data-mail="Soporte Kibian Extractos" href="#">Contacto</a> · © <span id="year"></span></p>
-    <p class="foot__legal">Kibian Extractos no está afiliado a Nequi ni a ningún banco. Los nombres de bancos se usan solo para indicar compatibilidad.</p>
+    <p class="foot__legal">Kibian Extractos no está afiliado a Nequi, DaviPlata ni a ningún banco. Los nombres de bancos se usan solo para indicar compatibilidad.</p>
   </div>
 </footer>
 
@@ -479,7 +487,7 @@
   <form id="pwdForm" method="dialog">
     <h3>Este extracto tiene clave</h3>
     <p class="muted">Escribe la clave de <b id="pwdFile"></b>. Se usa solo para abrirlo aquí en tu navegador; no se guarda ni se envía.</p>
-    <p class="muted small">En Nequi suele ser tu número de documento.</p>
+    <p class="muted small">Suele ser tu número de documento.</p>
     <label for="pwdInput" class="sr-only">Clave del PDF</label>
     <input type="password" id="pwdInput" autocomplete="off" required>
     <p id="pwdError" class="err small" hidden>Esa clave no funcionó. Intenta de nuevo.</p>
