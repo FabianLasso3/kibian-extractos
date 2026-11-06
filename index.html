@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://kibianextractos.goatcounter.com; font-src 'self'; worker-src 'self' blob:; connect-src 'self' https://api.lemonsqueezy.com https://kibianextractos.goatcounter.com https://*.workers.dev; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kibian Extractos | Convierte tu extracto de Nequi a Excel en segundos</title>
+<meta name="description" content="Convierte extractos bancarios en PDF de Nequi a Excel o CSV en segundos. Saldos verificados y 100% privado: tu archivo nunca sale de tu computador. Gratis, sin registro.">
+<meta property="og:title" content="Tu extracto de Nequi en Excel, en segundos">
+<meta property="og:description" content="Sin copiar y pegar. Saldos verificados. Tu archivo nunca sale de tu computador.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0E2A22">
+<link rel="canonical" href="https://fabianlasso3.github.io/kibian-extractos/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a href="#" class="brand" aria-label="Kibian Extractos, inicio">
+      <img class="brand__mark" src="assets/logo-mark.svg" width="34" height="34" alt="">
+      <span class="brand__txt"><span class="brand__k">kibian</span><span class="brand__e">extractos</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Principal">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#privacidad">Privacidad</a>
+      <a href="#precios">Precios</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <a href="#convertir" class="btn btn--primary btn--sm">Convertir gratis</a>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO + HERRAMIENTA -->
+<section class="hero" id="convertir">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="pill"><span class="dot dot--live"></span> Disponible para extractos de Nequi</p>
+      <h1>Tu extracto bancario en Excel <span class="mark">en 10 segundos.</span> Sin copiar una sola fila.</h1>
+      <p class="lead lead--desk">Arrastra el PDF, revisa la tabla y descárgala lista para trabajar. Cada saldo verificado, y tu archivo <strong>nunca sale de tu computador.</strong></p>
+      <p class="lead lead--mob">Elige tu PDF y descarga tu Excel. Gratis, sin registro, y tu archivo <strong>nunca sale de tu celular.</strong></p>
+      <ul class="ticks">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Gratis y sin registro</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Funciona con PDFs protegidos con clave</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Excel y CSV listos para tu contabilidad</li>
+      </ul>
+    </div>
+
+    <div class="tool" aria-label="Convertidor de extractos">
+      <div class="tool__bar">
+        <span class="tool__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="tool__lock"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M7 11V7a5 5 0 0 1 10 0v4M5 11h14v10H5z"/></svg> Procesado 100% en tu navegador</span>
+      </div>
+      <div class="inapp" id="inapp" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <div>
+          <strong>Estás en <span id="inappName">la app</span>:</strong> aquí la descarga puede fallar. Toca <b>···</b> y elige <b>Abrir en el navegador</b>.
+          <div class="inapp__btns"><a class="btn btn--dark btn--sm" id="inappOpen" href="#" hidden data-track="abrir-navegador">Abrir en Chrome</a><button type="button" class="btn btn--ghost btn--sm" id="inappCopy" data-track="copiar-link">Copiar link</button></div>
+        </div>
+      </div>
+      <div id="dropzone" class="drop" tabindex="0" role="button" aria-describedby="dropHint">
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+        <div class="drop__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="48" height="48"><path d="M14 6h14l10 10v24a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="#fff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M28 6v10h10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 34V22m0 0-5 5m5-5 5 5" fill="none" stroke="#1F9D55" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="drop__title"><span class="only-desk">Suelta aquí tu extracto en PDF</span><span class="only-touch">Toca aquí y elige tu extracto en PDF</span></p>
+        <p class="drop__sub"><span class="only-desk">o <u>haz clic para elegirlo</u></span><span class="only-touch">Lo buscas en <u>Descargas</u> o en <u>Archivos</u></span></p>
+        <p class="drop__hint" id="dropHint"></p>
+      </div>
+      <details class="help-nequi" id="helpNequi">
+        <summary>¿Cómo descargo mi extracto de Nequi?</summary>
+        <ol>
+          <li>Entra a <b>nequi.com.co</b> desde el navegador y toca <b>Entrar</b>.</li>
+          <li>Ingresa con tu celular, tu clave y la clave dinámica que te muestra la app.</li>
+          <li>Busca <b>Certificados y extractos</b>, elige el mes y descárgalo en PDF.</li>
+          <li>Vuelve aquí y elígelo. Si te pide clave, suele ser tu número de documento.</li>
+        </ol>
+      </details>
+      <button type="button" class="demo-btn" id="demoBtn">¿No tienes un extracto a mano? <u>Mira cómo queda con un ejemplo</u></button>
+      <p class="plan-badge" id="planBadge"></p>
+      <p class="status" id="status" hidden role="status" aria-live="polite"></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div id="results" class="results" hidden aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- BANCOS -->
+<section class="banks">
+  <div class="wrap banks__in">
+    <p>Hoy leemos extractos de</p>
+    <span class="bank bank--on">Nequi</span>
+    <span class="bank">Bancolombia <em>pronto</em></span>
+    <span class="bank">Davivienda <em>pronto</em></span>
+    <span class="bank">DaviPlata <em>pronto</em></span>
+    <a class="banks__ask" data-mail="Quiero que agreguen mi banco" href="#">¿Tu banco no está? Pídelo aquí</a>
+  </div>
+</section>
+
+<!-- ANTES / DESPUES -->
+<section class="ba">
+  <div class="wrap">
+    <p class="eyebrow center">Antes y después</p>
+    <h2 class="center">Del PDF que no se deja copiar<br class="hide-sm"> al Excel que trabaja por ti</h2>
+    <div class="ba__grid">
+      <figure class="ba__card ba__card--before">
+        <figcaption><span class="ba__tag ba__tag--bad">Antes</span> Un PDF de 2 páginas</figcaption>
+        <div class="fake-pdf" aria-hidden="true">
+          <div class="fp-head"><i></i><i></i></div>
+          <div class="fp-row"><b>21/01</b><span>RECIBI POR BRE-B DE...</span><em>$36,000.00</em></div>
+          <div class="fp-row"><b>21/01</b><span>COMPRA PSE EN...</span><em>$-36,000.00</em></div>
+          <div class="fp-row fp-row--sel"><b>17/01</b><span>Pago de Intereses</span><em>$17.20</em></div>
+          <div class="fp-row"><b>16/01</b><span>CLARO</span><em>$-72,138.00</em></div>
+          <div class="fp-break">Página 1 de 2</div>
+          <div class="fp-row"><b>08/01</b><span>Recarga desde...</span><em>$75,000.00</em></div>
+        </div>
+        <ul class="ba__list ba__list--bad">
+          <li>Al copiar, las columnas se pegan en una sola celda</li>
+          <li>Los valores llegan como texto: no se pueden sumar</li>
+          <li>Del más reciente al más antiguo, partido en páginas</li>
+        </ul>
+      </figure>
+      <div class="ba__arrow" aria-hidden="true"><svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="23" fill="#C8F169"/><path d="M15 24h18m-6-7 7 7-7 7" fill="none" stroke="#0E2A22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <figure class="ba__card ba__card--after">
+        <figcaption><span class="ba__tag ba__tag--good">Después</span> Un Excel listo en segundos</figcaption>
+        <div class="fake-xls" aria-hidden="true">
+          <div class="fx-row fx-row--h"><span>Fecha</span><span>Descripción</span><span>Débito</span><span>Crédito</span></div>
+          <div class="fx-row"><span>16/01/2026</span><span>CLARO</span><span class="neg">72.138,00</span><span></span></div>
+          <div class="fx-row"><span>17/01/2026</span><span>Pago de Intereses</span><span></span><span class="pos">17,20</span></div>
+          <div class="fx-row"><span>21/01/2026</span><span>COMPRA PSE</span><span class="neg">36.000,00</span><span></span></div>
+          <div class="fx-row"><span>21/01/2026</span><span>RECIBI POR BRE-B</span><span></span><span class="pos">36.000,00</span></div>
+          <div class="fx-row fx-row--t"><span></span><span>Total</span><span>648.217,34</span><span>648.217,20</span></div>
+        </div>
+        <ul class="ba__list ba__list--good">
+          <li>Una fila por movimiento, en orden cronológico</li>
+          <li>Fechas y números reales, listos para sumar y filtrar</li>
+          <li>Débito y crédito en columnas separadas</li>
+        </ul>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- DOLOR -->
+<section class="pain">
+  <div class="wrap pain__grid">
+    <div>
+      <p class="eyebrow">El trabajo que nadie debería hacer a mano</p>
+      <h2>Copiar movimientos de un PDF a Excel te está costando más de lo que crees</h2>
+      <p>Fila por fila, valor por valor. Y un solo número mal copiado descuadra toda la conciliación, así que toca revisar todo otra vez. Ese tiempo no se factura y nadie te lo devuelve.</p>
+    </div>
+    <div class="calc">
+      <label for="calcRange">¿Cuántos extractos pasas a Excel al mes?</label>
+      <div class="calc__row"><input type="range" id="calcRange" min="1" max="60" value="12"><output id="calcOut">12</output></div>
+      <p class="calc__res">Son cerca de <strong id="calcHours">5 horas</strong> al mes copiando y revisando.</p>
+      <p class="calc__note">Con Kibian Extractos: unos segundos por archivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="how" id="como-funciona">
+  <div class="wrap">
+    <p class="eyebrow center">Cómo funciona</p>
+    <h2 class="center">Tres pasos. Cero fórmulas.</h2>
+    <ol class="steps">
+      <li>
+        <span class="steps__n">1</span>
+        <h3>Suelta el PDF</h3>
+        <p>El extracto tal como lo descargas del banco. Si tiene clave, la escribes y listo.</p>
+      </li>
+      <li>
+        <span class="steps__n">2</span>
+        <h3>Revisa la tabla</h3>
+        <p>Ves cada movimiento con fecha, descripción, valor y saldo, y la confirmación de que todo cuadra.</p>
+      </li>
+      <li>
+        <span class="steps__n">3</span>
+        <h3>Descarga y trabaja</h3>
+        <p>Un Excel con fechas y números reales, filtros activados y columnas de débito y crédito separadas.</p>
+      </li>
+    </ol>
+    <div class="center"><a href="#convertir" class="btn btn--primary">Probar con mi extracto</a></div>
+  </div>
+</section>
+
+<!-- LO QUE TRAE EL EXCEL -->
+<section class="inside">
+  <div class="wrap inside__grid">
+    <div>
+      <p class="eyebrow">Lo que recibes</p>
+      <h2>Un Excel pensado por alguien que sabe lo que es conciliar</h2>
+      <p class="muted inside__lead">No es una tabla pegada a la fuerza. Cada archivo sale listo para filtrar, sumar o importar, sin que tengas que arreglar nada.</p>
+      <a href="#convertir" class="btn btn--primary">Generar mi Excel gratis</a>
+    </div>
+    <ul class="feats">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg><div><h3>Fechas de verdad</h3><p>Excel las reconoce como fechas: puedes ordenar, agrupar por mes o filtrar por rango.</p></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><div><h3>Débito y crédito separados</h3><p>Además del valor con signo, para que cuadres entradas y salidas sin fórmulas.</p></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg><div><h3>Filtros ya activados</h3><p>Abres el archivo y buscas un pago, un cliente o un tipo de movimiento al instante.</p></div></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><div><h3>Hoja de verificación</h3><p>Saldo inicial, totales y saldo final del extracto, con el resultado del chequeo.</p></div></li>
+      <li class="feats__pro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg><div><h3>Resumen por mes y categoría <span class="pro-tag">Pase y Pro</span></h3><p>Cuánto se fue en transferencias, compras, servicios o retiros, mes a mes.</p></div></li>
+      <li class="feats__pro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg><div><h3>Formato profesional <span class="pro-tag">Pase y Pro</span></h3><p>Encabezado de color, filas alternadas, montos en verde y rojo y una fila de totales con fórmulas.</p></div></li>
+      <li class="feats__pro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><div><h3>Todo el año en un archivo <span class="pro-tag">Pase y Pro</span></h3><p>Suelta los 12 extractos y recibe una sola tabla ordenada, ideal para la renta.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRIVACIDAD -->
+<section class="privacy" id="privacidad">
+  <div class="wrap privacy__grid">
+    <div class="privacy__art" aria-hidden="true">
+      <svg viewBox="0 0 220 220" width="220" height="220"><circle cx="110" cy="110" r="96" fill="none" stroke="#C8F169" stroke-opacity=".25" stroke-width="2" stroke-dasharray="4 8"/><circle cx="110" cy="110" r="66" fill="none" stroke="#C8F169" stroke-opacity=".45" stroke-width="2"/><rect x="78" y="96" width="64" height="54" rx="10" fill="#C8F169"/><path d="M92 96V84a18 18 0 0 1 36 0v12" fill="none" stroke="#C8F169" stroke-width="8" stroke-linecap="round"/><circle cx="110" cy="120" r="7" fill="#0E2A22"/><path d="M110 125v10" stroke="#0E2A22" stroke-width="5" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <p class="eyebrow eyebrow--light">Privacidad por diseño, no por promesa</p>
+      <h2>Tu extracto nunca sale de tu computador</h2>
+      <p>La mayoría de convertidores suben tu PDF a sus servidores. Nosotros no tenemos servidor que lo reciba: el archivo se lee dentro de tu propio navegador y desaparece al cerrar la pestaña.</p>
+      <ul class="plist">
+        <li><strong>No guardamos nada.</strong> Ni tus movimientos, ni tus saldos, ni tu clave del PDF.</li>
+        <li><strong>No lo enviamos a ninguna parte.</strong> No hay subida de archivos, ni a nosotros ni a terceros. Solo contamos visitas, sin cookies.</li>
+        <li><strong>Puedes comprobarlo.</strong> Carga la página, desconecta el internet y convierte tu extracto: funciona igual.</li>
+      </ul>
+      <p class="privacy__foot">Ideal para contadores que manejan información de clientes y no pueden arriesgarla en sitios desconocidos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFICACION -->
+<section class="trust">
+  <div class="wrap trust__grid">
+    <div>
+      <p class="eyebrow">Lo que otros convertidores no hacen</p>
+      <h2>No solo convertimos: comprobamos que cada peso cuadre</h2>
+      <p>Recalculamos el saldo después de cada movimiento y lo comparamos con el del banco. También cotejamos el total de entradas, salidas y el saldo final con el resumen del extracto. Si algo no cuadra, te lo decimos antes de que lo uses.</p>
+    </div>
+    <div class="trust__card" aria-hidden="true">
+      <div class="tc-row"><span>Saldo anterior</span><b>$ 0,14</b></div>
+      <div class="tc-row"><span>+ Entradas</span><b class="pos">$ 648.217,20</b></div>
+      <div class="tc-row"><span>− Salidas</span><b class="neg">$ 648.217,34</b></div>
+      <div class="tc-row tc-row--tot"><span>Saldo final</span><b>$ 0,00</b></div>
+      <div class="tc-ok"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></svg> 19 de 19 movimientos verificados</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVA -->
+<section class="vs">
+  <div class="wrap">
+    <p class="eyebrow center">Compara</p>
+    <h2 class="center">¿Por qué no usar cualquier convertidor de PDF?</h2>
+    <p class="center muted vs__sub">Porque un extracto no es un PDF cualquiera: tiene saldos que deben cuadrar y datos que no deberían viajar por internet.</p>
+    <div class="vs__wrap">
+      <table class="vs__table">
+        <thead><tr><th></th><th>Copiar a mano</th><th>Convertidores genéricos</th><th class="vs__us">Kibian Extractos</th></tr></thead>
+        <tbody>
+          <tr><th>Tiempo por extracto</th><td>20 a 30 minutos</td><td>Minutos, más arreglar columnas</td><td class="vs__us"><b>Segundos</b></td></tr>
+          <tr><th>Tu archivo se sube a internet</th><td class="y">No</td><td class="n">Sí, en la mayoría</td><td class="vs__us y"><b>Nunca</b></td></tr>
+          <tr><th>Une las páginas en una sola tabla</th><td>A mano</td><td>A veces se descuadra</td><td class="vs__us y"><b>Sí</b></td></tr>
+          <tr><th>Débito y crédito separados</th><td>A mano</td><td class="n">No</td><td class="vs__us y"><b>Sí</b></td></tr>
+          <tr><th>Verifica que los saldos cuadren</th><td class="n">No</td><td class="n">No</td><td class="vs__us y"><b>Sí, cada fila</b></td></tr>
+          <tr><th>Abre PDFs con clave</th><td>Sí</td><td>Pocos</td><td class="vs__us y"><b>Sí</b></td></tr>
+          <tr><th>Riesgo de error al digitar</th><td class="n">Alto</td><td>Medio</td><td class="vs__us y"><b>Detectado y avisado</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="center"><a href="#convertir" class="btn btn--primary">Comprobarlo con mi extracto</a></div>
+  </div>
+</section>
+
+<!-- PARA QUIEN -->
+<section class="who">
+  <div class="wrap">
+    <p class="eyebrow center">Para quién es</p>
+    <h2 class="center">Hecho para quien vive entre extractos</h2>
+    <div class="cards">
+      <article class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg>
+        <h3>Contadores y auxiliares</h3>
+        <p>Concilia los extractos de todos tus clientes sin digitar. Más clientes atendidos en el mismo tiempo.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg>
+        <h3>Independientes y freelancers</h3>
+        <p>Ten claro cuánto entra y cuánto sale, sin pelearte con el PDF cada fin de mes.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V9l9-6 9 6v12M9 21v-7h6v7"/></svg>
+        <h3>Pymes y emprendimientos</h3>
+        <p>Cruza tus ventas por Nequi con tus registros y detecta pagos que no llegaron.</p>
+      </article>
+      <article class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v18l-5-3-5 3zM10 8h4M10 12h4"/></svg>
+        <h3>Declaración de renta</h3>
+        <p>Une los extractos de todo el año en un solo archivo y llega con tus números en orden.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="pricing" id="precios">
+  <div class="wrap">
+    <p class="eyebrow center">Precios</p>
+    <h2 class="center">Gratis para siempre. Paga solo el mes que lo necesites.</h2>
+    <p class="center muted pricing__sub">Úsalo gratis todas las veces que quieras. Paga solo cuando necesites todo.</p>
+    <div class="launch">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+      <p><b>Precio de lanzamiento.</b> Cuando agreguemos más bancos los precios van a subir. Si tomas el plan anual ahora, <b>conservas este precio</b> mientras lo mantengas activo.</p>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Gratis</h3>
+        <p class="plan__price"><span>$0</span></p>
+        <p class="plan__bill">Sin registro ni tarjeta.</p>
+        <p class="plan__for">Para quien mueve poco su cuenta y convierte de vez en cuando.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span><b>Conversiones ilimitadas</b>, un extracto a la vez</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span>Hasta <span data-cfg="freeRowsPerStatement">25</span> movimientos por extracto en el archivo</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span>Excel y CSV con filtros</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span>Verificación de saldos y PDFs con clave</span></li>
+        </ul>
+        <a href="#convertir" class="btn btn--ghost btn--block">Convertir gratis</a>
+      </article>
+
+      <article class="plan">
+        <h3>Pase 30 días</h3>
+        <p class="plan__price"><span data-cfg="pricePass">$4.99</span><small>USD por 30 días</small></p>
+        <p class="plan__bill"><b>No es de por vida:</b> pagas una vez y tienes 30 días de acceso. No se renueva ni te volvemos a cobrar; al terminar vuelves al plan gratis.</p>
+        <p class="plan__for">Para cuando lo necesitas de verdad: la renta, un crédito, un trámite.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span><b>Todos los movimientos</b>, sin tope</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Varios PDFs a la vez, unidos en un solo Excel</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Excel con formato profesional y totales</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Categorías automáticas y resumen por mes</li>
+        </ul>
+        <a href="#" data-checkout="checkoutPass" class="btn btn--dark btn--block" target="_blank" rel="noopener">Comprar 30 días</a>
+        <p class="plan__safe">Tarjeta o PayPal vía Lemon Squeezy. Al comprar aceptas los <a href="terminos.html">Términos</a> y la <a href="privacidad.html">Política de privacidad</a>.</p>
+      </article>
+
+      <article class="plan plan--pro">
+        <p class="plan__tag">Para uso frecuente</p>
+        <h3>Pro anual</h3>
+        <p class="plan__price"><span data-cfg="priceYearly">$39.99</span><small>USD / año</small></p>
+        <p class="plan__bill">Equivale a <b data-cfg="priceYearlyPerMonth">$3.33</b> USD al mes. Se renueva cada año; cancelas cuando quieras.</p>
+        <p class="plan__for">Para contadores y negocios que convierten extractos todo el año.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <b>Todo lo del Pase, todo el año</b></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> <span><b>Todos los movimientos</b>, sin tope</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Varios PDFs a la vez, unidos en un solo Excel</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Excel con formato profesional y totales</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Categorías automáticas y resumen por mes</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Cada banco nuevo que agreguemos, sin costo extra</li>
+        </ul>
+        <a href="#" data-checkout="checkoutYearly" class="btn btn--primary btn--block" target="_blank" rel="noopener">Quiero Pro anual</a>
+        <p class="plan__safe">Tarjeta o PayPal vía Lemon Squeezy. Al comprar aceptas los <a href="terminos.html">Términos</a> y la <a href="privacidad.html">Política de privacidad</a>.</p>
+      </article>
+    </div>
+
+    <div class="license" id="licencia">
+      <div data-license-inactive>
+        <h3>¿Ya compraste el Pase o Pro?</h3>
+        <p class="muted">Pega la clave de licencia que te llegó al correo.</p>
+        <form id="licenseForm" class="license__form">
+          <label for="licenseInput" class="sr-only">Clave de licencia</label>
+          <input id="licenseInput" type="text" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" autocomplete="off" spellcheck="false">
+          <button class="btn btn--dark" type="submit">Activar</button>
+        </form>
+      </div>
+      <div data-license-active hidden>
+        <h3 id="licensePlanShown">Plan activo</h3>
+        <p class="muted">Licencia <code id="licenseKeyShown"></code> · <button type="button" class="linklike" id="licenseOut">Desactivar aquí</button></p>
+      </div>
+      <p id="licenseMsg" class="license-msg" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- HOJA DE RUTA -->
+<section class="road">
+  <div class="wrap road__grid">
+    <div>
+      <p class="eyebrow">Tú decides lo que sigue</p>
+      <h2>Vota el próximo banco que vamos a leer</h2>
+      <p class="muted">Agregamos los bancos en el orden en que nos los piden. Un clic y tu voto queda registrado por correo. Quienes tienen el plan anual reciben cada banco nuevo sin pagar más.</p>
+    </div>
+    <div class="road__list">
+      <div class="road__item road__item--done"><span>Nequi</span><em>Disponible</em></div>
+      <a class="road__item" data-mail="Voto: Bancolombia" href="#"><span>Bancolombia</span><em>Votar</em></a>
+      <a class="road__item" data-mail="Voto: Davivienda" href="#"><span>Davivienda</span><em>Votar</em></a>
+      <a class="road__item" data-mail="Voto: DaviPlata" href="#"><span>DaviPlata</span><em>Votar</em></a>
+      <a class="road__item" data-mail="Voto: BBVA Colombia" href="#"><span>BBVA</span><em>Votar</em></a>
+      <a class="road__item" data-mail="Voto: Banco de Bogotá" href="#"><span>Banco de Bogotá</span><em>Votar</em></a>
+      <a class="road__item road__item--other" data-mail="Voto: otro banco (escribe cuál y de qué país)" href="#"><span>Otro banco o país</span><em>Proponer</em></a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap faq__in">
+    <h2>Preguntas frecuentes</h2>
+    <details open>
+      <summary>¿De verdad no suben mi extracto a ningún lado?</summary>
+      <p>De verdad. La herramienta se descarga en tu navegador y lee el PDF ahí mismo. No existe un servidor que reciba archivos. Puedes cargar la página, desconectar el internet y convertir tu extracto para comprobarlo.</p>
+    </details>
+    <details>
+      <summary>Mi extracto de Nequi tiene clave. ¿Funciona?</summary>
+      <p>Sí. Al soltar el archivo te pedimos la clave, abres el PDF en tu navegador y seguimos. La clave no se guarda ni se envía a ninguna parte.</p>
+    </details>
+    <details>
+      <summary>¿Qué bancos soportan?</summary>
+      <p>Hoy, Nequi. Estamos trabajando en Bancolombia, Davivienda y DaviPlata. Si necesitas otro banco, <a data-mail="Quiero que agreguen mi banco" href="#">escríbenos</a>: los bancos más pedidos son los primeros que agregamos.</p>
+    </details>
+    <details>
+      <summary>¿Funciona con extractos escaneados o fotos?</summary>
+      <p>Por ahora no. Leemos el PDF original que descargas del banco, que es el caso de casi todos los extractos digitales.</p>
+    </details>
+    <details>
+      <summary>¿Qué pasa si un saldo no cuadra?</summary>
+      <p>Te avisamos en pantalla y en la hoja "Verificación" del Excel, indicando la fila. Así sabes exactamente qué revisar antes de usar los datos.</p>
+    </details>
+    <details>
+      <summary>¿Qué diferencia hay entre el Pase y el plan anual?</summary>
+      <p>Los dos desbloquean lo mismo. El <b>Pase</b> te da <b>30 días de acceso</b> por un solo pago. No es acceso de por vida: a los 30 días termina y vuelves al plan gratis, sin cobros automáticos. Si lo necesitas otra vez, compras otro. El <b>plan anual</b> es una suscripción para quien lo usa todo el año; se renueva cada año y puedes cancelarla cuando quieras. En ambos casos te llega una clave al correo y la pegas en esta página.</p>
+    </details>
+    <details>
+      <summary>¿Qué pasa si mi extracto tiene más de <span data-cfg="freeRowsPerStatement">25</span> movimientos?</summary>
+      <p>Con el plan gratis ves en pantalla los primeros 25 y el archivo los incluye; el resto queda bloqueado. Con el Pase o el plan anual obtienes todos, sin tope.</p>
+    </details>
+    <details>
+      <summary>¿Puedo probarlo antes de pagar?</summary>
+      <p>Sí, y sin registrarte. El plan gratis es para siempre: conviertes los extractos que quieras, uno a la vez, con hasta <span data-cfg="freeRowsPerStatement">25</span> movimientos por extracto en el archivo y la verificación de saldos incluida. Si no tienes un extracto a mano, usa el botón de ejemplo en la herramienta y descarga el Excel de prueba.</p>
+    </details>
+    <details>
+      <summary>Soy contador y manejo extractos de varios clientes. ¿Me sirve?</summary>
+      <p>Es justo para ti. Con el plan anual obtienes todos los movimientos, procesas varios archivos a la vez y, como nada se sube a internet, no expones la información de tus clientes a terceros.</p>
+    </details>
+    <details>
+      <summary>¿En cuántos computadores puedo usar mi plan?</summary>
+      <p>La licencia se activa por navegador y sirve en 2 a la vez, por ejemplo el de la oficina y el de la casa. Puedes desactivarla en uno para moverla a otro.</p>
+    </details>
+    <details>
+      <summary>¿El Excel sirve para mi software contable?</summary>
+      <p>El Excel trae fechas y números reales (no texto), con débito y crédito en columnas separadas, así que se puede filtrar, sumar o importar. El CSV usa el formato estándar que aceptan la mayoría de programas.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <div class="wrap final__in">
+    <h2>Tu próximo extracto, en Excel antes de que termines de leer esto.</h2>
+    <p>Gratis, sin registro y sin subir tu archivo a ningún lado.</p>
+    <a href="#convertir" class="btn btn--primary btn--lg">Convertir mi extracto ahora</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p><b>Kibian Extractos</b> · un producto de Kibian · v<span data-cfg="version"></span></p>
+    <p><a href="terminos.html">Términos de uso</a> · <a href="privacidad.html">Política de privacidad</a> · <a data-mail="Soporte Kibian Extractos" href="#">Contacto</a> · © <span id="year"></span></p>
+    <p class="foot__legal">Kibian Extractos no está afiliado a Nequi ni a ningún banco. Los nombres de bancos se usan solo para indicar compatibilidad.</p>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar">
+  <span>Tu extracto en Excel, gratis</span>
+  <a href="#convertir" class="btn btn--primary btn--sm">Convertir ahora</a>
+</div>
+
+<dialog id="pwdDialog" class="dialog">
+  <form id="pwdForm" method="dialog">
+    <h3>Este extracto tiene clave</h3>
+    <p class="muted">Escribe la clave de <b id="pwdFile"></b>. Se usa solo para abrirlo aquí en tu navegador; no se guarda ni se envía.</p>
+    <p class="muted small">En Nequi suele ser tu número de documento.</p>
+    <label for="pwdInput" class="sr-only">Clave del PDF</label>
+    <input type="password" id="pwdInput" autocomplete="off" required>
+    <p id="pwdError" class="err small" hidden>Esa clave no funcionó. Intenta de nuevo.</p>
+    <div class="dialog__actions">
+      <button type="button" class="btn btn--ghost" id="pwdCancel">Cancelar</button>
+      <button type="submit" class="btn btn--primary">Abrir extracto</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="js/config.js"></script>
+<script src="vendor/pdf.min.js"></script>
+<script src="vendor/exceljs.min.js"></script>
+<script src="js/parser.js"></script>
+<script src="js/app.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/analytics.js"></script>
+<script data-goatcounter="https://kibianextractos.goatcounter.com/count" async src="vendor/count.js"></script>
+</body>
+</html>
