@@ -1,6 +1,6 @@
-# Kibian Extractos v0.7.0
+# Kibian Extractos v0.8.0
 
-Convertidor de extractos bancarios PDF a Excel/CSV. Bancos soportados: Nequi y DaviPlata (en DaviPlata el saldo por fila se calcula a partir del saldo anterior, porque el extracto no lo trae). Todo corre en el navegador: los archivos nunca se suben.
+Convertidor de extractos bancarios PDF a Excel/CSV. Bancos soportados: Nequi, DaviPlata y Bancolombia (cuenta de ahorros y corriente). En DaviPlata el saldo por fila se calcula a partir del saldo anterior, porque el extracto no lo trae. Todo corre en el navegador: los archivos nunca se suben.
 
 ## Planes
 
@@ -72,6 +72,6 @@ GitHub Pages no tiene funciones de servidor. La web activa la licencia llamando 
 ## Estadísticas (GoatCounter)
 
 - El contador está en `vendor/count.js` (alojado en el propio sitio) y envía los datos a `https://kibianextractos.goatcounter.com`. Crea ese sitio en tu cuenta de GoatCounter con el código **kibianextractos**. Si usas otro código, cámbialo en `index.html`, `terminos.html` y `privacidad.html` (en el script y en la etiqueta Content-Security-Policy).
-- Eventos principales: **`subio-extracto`** (eligió un PDF), **`descargo-excel-gratis` / `descargo-excel-pago`**, **`clic-comprar-pase`** y **`clic-comprar-anual`**. Otros: `conversion-ok-<banco>-<cantidad>`, `error-…`, `clave-pdf-pedida`, `tope-gratis-mostrado`, `ver-ejemplo`, `ayuda-nequi`, `ayuda-daviplata`, `cta-convertir-…`, `ver-planes`, `vio-precios`, `vio-faq`, `faq-N`, `licencia-activada-…`, `licencia-error`, `voto-…`, `navegador-interno-tiktok/instagram/facebook`, `abrir-chrome`, `abrir-safari`, `enviame-el-link` (y `-whatsapp`, `-correo`, `-copiado`, `-compartido`), `descarga-intentada-en-…`. Las visitas que llegan desde un link enviado traen `utm_source=link-enviado`.
+- Eventos principales: **`subio-extracto`** (eligió un PDF), **`descargo-excel-gratis` / `descargo-excel-pago`**, **`clic-comprar-pase`** y **`clic-comprar-anual`**. Otros: `conversion-ok-<banco>-<cantidad>`, `error-…`, `clave-pdf-pedida`, `tope-gratis-mostrado`, `ver-ejemplo`, `ayuda-nequi`, `ayuda-daviplata`, `ayuda-bancolombia`, `error-sin-movimientos`, `cta-convertir-…`, `ver-planes`, `vio-precios`, `vio-faq`, `faq-N`, `licencia-activada-…`, `licencia-error`, `voto-…`, `navegador-interno-tiktok/instagram/facebook`, `abrir-chrome`, `abrir-safari`, `enviame-el-link` (y `-whatsapp`, `-correo`, `-copiado`, `-compartido`), `descarga-intentada-en-…`. Las visitas que llegan desde un link enviado traen `utm_source=link-enviado`.
 - Para separar campañas usa links con `?utm_source=tiktok&utm_campaign=nombre`.
 - En GoatCounter, en la configuración del sitio, puedes agregar `fabianlasso3.github.io` como dominio del sitio.
