@@ -442,3 +442,31 @@ tr.ghost:last-child td { opacity: .5; }
 
 /* v0.9.0: marca dentro del h1 (SEO) */
 .h1-brand { display: block; font-size: max(.36em, .85rem); font-weight: 700; letter-spacing: .01em; color: var(--green, #1F9D55); margin-bottom: .45em; }
+
+/* v0.9.0: guias */
+.guide .crumbs { color: var(--muted); margin-bottom: 14px; }
+.guide .crumbs a { color: var(--muted); }
+.guide-faq.faq { background: none; border-top: 0; }
+.guide-faq h2 { margin-bottom: 8px; }
+.guide-answer p:last-child { margin-bottom: .8em; }
+.guide-answer a { color: var(--green); font-weight: 600; }
+.guide-steps { padding-left: 0; list-style: none; counter-reset: st; display: grid; gap: 14px; margin: 0 0 1em; }
+.guide-steps li { counter-increment: st; position: relative; padding-left: 44px; }
+.guide-steps li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--lime); color: var(--ink); font-weight: 800; display: grid; place-items: center; font-size: .9rem; }
+.guide-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; background: var(--ink); color: #fff; border-radius: 18px; padding: 22px 24px; margin: 36px 0; }
+.guide-cta__t, .legal__body .guide-cta__t { font-weight: 800; font-size: 1.15rem; margin: 0 0 4px; color: #fff; }
+.guide-cta__s { margin: 0; color: #CFE0D8 !important; font-size: .95rem; }
+.guide-cta .btn { flex-shrink: 0; }
+.guide-list { list-style: none; padding: 0 !important; display: grid; gap: 10px !important; }
+.guide-list a { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; text-decoration: none; color: var(--ink) !important; font-weight: 600; }
+.guide-list a:hover { border-color: var(--green); }
+.guide-list svg { color: var(--green); flex-shrink: 0; }
+.guide-banks { display: grid; gap: 24px; margin: 32px 0; }
+@media (min-width: 900px) { .guide-banks { grid-template-columns: repeat(3, 1fr); } }
+.guide-bank h2 { font-size: 1.3rem; }
+.guide-lead { max-width: 640px; font-size: 1.1rem; }
+.guide-src a { color: var(--muted) !important; }
+.guides-home { background: var(--paper); }
+.guides-home .guide-list { max-width: 900px; margin: 28px auto 0; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .guides-home .guide-list { grid-template-columns: 1fr 1fr; } }
+.help-more { margin: 0; padding: 0 14px 12px; font-size: .9rem; } .help-more a { color: var(--green); font-weight: 600; }
