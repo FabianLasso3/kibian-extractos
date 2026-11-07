@@ -158,6 +158,65 @@
     }
   });
 
+  // Bancolombia (cuenta de ahorros o corriente): fecha "d/mm", valor con "-" adelante, saldo por fila
+  var BC_DATE = /^(\d{1,2})\/(\d{1,2})$/;
+  var BC_MONEY = /^-?(\d{1,3}(,\d{3})*)?\.\d{2}$/;
+  function bcMoney(str) { return parseMoney(String(str).replace(/\s/g, '').replace(/^(-?)\./, '$10.')); }
+  BANKS.push({
+    id: 'bancolombia',
+    name: 'Bancolombia',
+    country: 'CO',
+    detect: function (fullText) {
+      return /ESTADO DE CUENTA/.test(fullText) && /DESDE:/.test(fullText) && /HASTA:/.test(fullText) &&
+        /SALDO ANTERIOR/.test(fullText) && /TOTAL ABONOS/.test(fullText) && /DCTO\./.test(fullText);
+    },
+    parse: function (pages, fullText) {
+      var out = { movements: [], summary: {}, period: null, warnings: [] };
+      var d1 = /DESDE:\s*(\d{4})\/(\d{2})\/(\d{2})/.exec(fullText);
+      var d2 = /HASTA:\s*(\d{4})\/(\d{2})\/(\d{2})/.exec(fullText);
+      if (d1 && d2) out.period = { from: d1[1] + '-' + d1[2] + '-' + d1[3], to: d2[1] + '-' + d2[2] + '-' + d2[3] };
+      var endYear = d2 ? +d2[1] : new Date().getFullYear(), endMonth = d2 ? +d2[2] : 12;
+      var labels = { 'SALDO ANTERIOR': 'opening', 'SALDO ACTUAL': 'closing', 'TOTAL ABONOS': 'credits', 'TOTAL CARGOS': 'debits' };
+      var ended = false;
+      pages.forEach(function (prows) {
+        prows.forEach(function (r) {
+          if (ended) return;
+          var c = r.cells;
+          if (/FIN ESTADO/.test(r.text)) { ended = true; return; }
+          // Resumen (columna izquierda): "SALDO ANTERIOR  $  582,130.33"
+          for (var i = 0; i < c.length; i++) {
+            var key = labels[c[i].str.trim()];
+            if (!key || out.summary[key] != null) continue;
+            var v = c.find(function (x) { return x.x > c[i].x && x.x < c[i].x + 260 && BC_MONEY.test(x.str.replace(/\s/g, '')); });
+            if (v) out.summary[key] = bcMoney(v.str);
+          }
+          // Movimiento: fecha | descripcion | sucursal | dcto. | valor | saldo
+          if (c.length < 3 || !BC_DATE.test(c[0].str.trim())) return;
+          var last = c[c.length - 1], prev = c[c.length - 2];
+          if (!BC_MONEY.test(last.str.replace(/\s/g, '')) || !BC_MONEY.test(prev.str.replace(/\s/g, ''))) return;
+          var dm = BC_DATE.exec(c[0].str.trim());
+          var day = +dm[1], mon = +dm[2];
+          if (mon < 1 || mon > 12 || day < 1 || day > 31) return;
+          var y = mon > endMonth ? endYear - 1 : endYear; // periodos que cruzan de diciembre a enero
+          var mid = c.slice(1, c.length - 2), desc = [], suc = [], doc = [];
+          mid.forEach(function (x) {
+            if (x.x < 262) desc.push(x.str); else if (x.x < 345) suc.push(x.str); else doc.push(x.str);
+          });
+          var d = desc.join(' ').replace(/\s+/g, ' ').trim();
+          var s = suc.join(' ').replace(/\s+/g, ' ').trim();
+          out.movements.push({
+            date: y + '-' + String(mon).padStart(2, '0') + '-' + String(day).padStart(2, '0'),
+            description: (d || 'Movimiento') + (s ? ' · ' + s : ''),
+            amount: bcMoney(prev.str),
+            balance: bcMoney(last.str),
+            reference: doc.join(' ').trim()
+          });
+        });
+      });
+      return out;
+    }
+  });
+
   // ---------- verificacion de saldos ----------
   function verify(result) {
     var mv = result.movements, s = result.summary, issues = [];
@@ -181,8 +240,9 @@
 
   // ---------- categorizacion (Pro) ----------
   var CATEGORY_RULES = [
-    [/\bGMF\b|4x1000|4 x 1000|comisi|cuota de manejo|\bIVA\b|cobro total|cobro o devoluci/i, 'Comisiones e impuestos'],
+    [/\bGMF\b|4x1000|4 x 1000|comisi|cuota de manejo|\bIVA\b|cobro total|cobro o devoluci|impto|retefuente/i, 'Comisiones e impuestos'],
     [/intereses/i, 'Intereses'],
+    [/pago de prov|pago de nomina|pago de nómina|pago interbanc|abono|consignaci/i, 'Transferencias recibidas'],
     [/pago credito|cuota|prestamo|préstamo/i, 'Pago de créditos'],
     [/retiro/i, 'Retiros en efectivo'],
     [/recarga/i, 'Recargas'],

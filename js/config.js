@@ -1,7 +1,7 @@
 /* Configuracion de Kibian Extractos.
    Cambia estos valores antes de publicar. */
 window.KIBIAN_CONFIG = {
-  version: '0.7.0',
+  version: '0.8.0',
 
   // Plan gratis: conversiones ilimitadas, un extracto a la vez,
   // y el archivo trae hasta este numero de movimientos por extracto.

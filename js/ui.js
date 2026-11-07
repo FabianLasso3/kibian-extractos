@@ -58,7 +58,7 @@
       });
 
       // Enviarse el link para despues
-      var msg = 'Kibian Extractos: convierte tu extracto de Nequi o DaviPlata a Excel, gratis: ' + url;
+      var msg = 'Kibian Extractos: convierte tu extracto de Nequi, DaviPlata o Bancolombia a Excel, gratis: ' + url;
       document.getElementById('sendWa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
       document.getElementById('sendMail').href = 'mailto:?subject=' + encodeURIComponent('Link de Kibian Extractos') + '&body=' + encodeURIComponent(msg);
       document.getElementById('inappSend').addEventListener('click', function () {

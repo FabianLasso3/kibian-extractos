@@ -182,8 +182,9 @@
   function errorText(code) {
     return {
       SCANNED: 'Este PDF parece ser una imagen escaneada. Por ahora solo leemos extractos descargados directamente del banco.',
-      UNSUPPORTED: 'Todavía no reconocemos este formato. Hoy soportamos extractos de Nequi y DaviPlata, y estamos sumando más bancos.',
+      UNSUPPORTED: 'Todavía no reconocemos este formato. Hoy soportamos extractos de Nequi, DaviPlata y Bancolombia, y estamos sumando más bancos.',
       CANCELLED: 'Cancelaste la apertura del archivo.',
+      EMPTY: 'Este extracto no tiene movimientos en el periodo. Descarga uno de un mes en el que hayas usado la cuenta.',
       NOTPDF: 'El archivo no es un PDF.'
     }[code] || 'No pudimos leer este archivo. Verifica que sea el PDF original descargado del banco.';
   }
@@ -205,13 +206,14 @@
       if (!/\.pdf$/i.test(f.name) && f.type !== 'application/pdf') { errors.push(f.name + ': ' + errorText('NOTPDF')); track('error-no-es-pdf'); continue; }
       try {
         var r = await readOne(f);
+        if (!r.movements.length) throw new Error('EMPTY');
         r.fileName = f.name;
         batch.push(r);
         track('conversion-ok-' + r.bank.id + '-' + bucket(r.movements.length), r.check.ok ? 'saldos ok' : 'saldos con diferencias');
         if (!r.check.ok) track('saldos-no-cuadran');
       } catch (e) {
         errors.push(f.name + ': ' + errorText(e && e.message));
-        var code = e && e.message; track('error-' + ({ SCANNED: 'escaneado', UNSUPPORTED: 'formato-no-soportado', CANCELLED: 'clave-cancelada' }[code] || 'lectura'));
+        var code = e && e.message; track('error-' + ({ SCANNED: 'escaneado', UNSUPPORTED: 'formato-no-soportado', CANCELLED: 'clave-cancelada', EMPTY: 'sin-movimientos' }[code] || 'lectura'));
       }
     }
     updatePlanUI();
