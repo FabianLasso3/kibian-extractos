@@ -439,3 +439,6 @@ tr.ghost:last-child td { opacity: .5; }
 .inapp .btn svg { color: inherit; flex: none; }
 .inapp__btns .btn { flex: 1 1 150px; }
 .inapp__send .btn { flex: 1 1 130px; }
+
+/* v0.9.0: marca dentro del h1 (SEO) */
+.h1-brand { display: block; font-size: max(.36em, .85rem); font-weight: 700; letter-spacing: .01em; color: var(--green, #1F9D55); margin-bottom: .45em; }
